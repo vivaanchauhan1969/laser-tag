@@ -230,3 +230,85 @@ local sounds={
 if healthregen then
 	local regenscript=waitForChild(sp,"HealthRegenerationScript")
 	regenscript.Disabled=false
+end
+Humanoid.WalkSpeed=wonderspeed
+
+local toolAnim="None"
+local toolAnimTime=0
+
+BodyColors.HeadColor=BrickColor.new("Grime")
+local randomcolor1=colors[math.random(1,#colors)]
+BodyColors.TorsoColor=BrickColor.new(randomcolor1)
+BodyColors.LeftArmColor=BrickColor.new(randomcolor1)
+BodyColors.RightArmColor=BrickColor.new(randomcolor1)
+local randomcolor2=colors[math.random(1,#colors)]
+BodyColors.LeftLegColor=BrickColor.new(randomcolor2)
+BodyColors.RightLegColor=BrickColor.new(randomcolor2)]]
+
+
+function onRunning(speed)
+	if speed>0 then
+		pose="Running"
+	else
+		pose="Standing"
+	end
+end
+function onDied()
+	pose="Dead"
+end
+function onJumping()
+	pose="Jumping"
+end
+function onClimbing()
+	pose="Climbing"
+end
+function onGettingUp()
+	pose = "GettingUp"
+end
+function onFreeFall()
+	pose = "FreeFall"
+end
+function onFallingDown()
+	pose = "FallingDown"
+end
+function onSeated()
+	pose = "Seated"
+end
+function onPlatformStanding()
+	pose = "PlatformStanding"
+end
+
+function moveJump()
+	RightShoulder.MaxVelocity = 0.5
+	LeftShoulder.MaxVelocity = 0.5
+  RightShoulder.DesiredAngle=3.14
+	LeftShoulder.DesiredAngle=-3.14
+	RightHip.DesiredAngle=0
+	LeftHip.DesiredAngle=0
+end
+
+function moveFreeFall()
+	RightShoulder.MaxVelocity = 0.5
+	LeftShoulder.MaxVelocity =0.5
+	RightShoulder.DesiredAngle=3.14
+	LeftShoulder.DesiredAngle=-3.14
+	RightHip.DesiredAngle=0
+	LeftHip.DesiredAngle=0
+end
+
+function moveSit()
+	RightShoulder.MaxVelocity = 0.15
+	LeftShoulder.MaxVelocity = 0.15
+	RightShoulder.DesiredAngle=3.14 /2
+	LeftShoulder.DesiredAngle=-3.14 /2
+	RightHip.DesiredAngle=3.14 /2
+	LeftHip.DesiredAngle=-3.14 /2
+end
+
+function animate(time)
+	local amplitude
+	local frequency
+	if (pose == "Jumping") then
+		moveJump()
+		return
+	end
