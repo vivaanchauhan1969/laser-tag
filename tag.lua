@@ -167,3 +167,38 @@ game:GetService("RunService").RenderStepped:connect(function()
 	end
 end)
 
+local player = game.Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+local ContextActionService = game:GetService("ContextActionService")
+
+local doJump = false
+local reviving = false
+local characterWalkSpeed = 40
+
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Health, false)
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+
+player:WaitForChild("PlayerGui")
+
+local function jump()
+	if player.Character ~= nil then
+		if player.Character.Humanoid.WalkSpeed == 0 then
+			doJump = false
+			if player.PlayerGui.StartScreen.StartInstructions.Visible == true then
+				player.PlayerGui.StartScreen:Destroy()
+				player.Character.Humanoid.WalkSpeed = characterWalkSpeed
+				game.ReplicatedStorage.RemoteEvents.RunStarting:FireServer()
+			end
+		else
+			player.Character.Humanoid.Jump = true
+		end
+	end
+end
+
+local function characterTouchedBrick(partTouched)
+	local behaviours = partTouched:FindFirstChild("Behaviours")
+	if behaviours ~= nil then
+		behaviours = behaviours:GetChildren()
+		for i = 1, #behaviours do
+			if behaviours[i].Value == true then
