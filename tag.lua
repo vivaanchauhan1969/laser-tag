@@ -202,3 +202,41 @@ local function characterTouchedBrick(partTouched)
 		behaviours = behaviours:GetChildren()
 		for i = 1, #behaviours do
 			if behaviours[i].Value == true then
+				game.ReplicatedStorage.RemoteEvents.ExecuteBehaviour:FireServer(player.Character, partTouched, behaviours[i].Name)
+			end
+		end
+	end
+end
+
+function characterAdded(newCharacter)
+	local humanoid = newCharacter:WaitForChild("Humanoid")
+	humanoid.WalkSpeed = 0
+	humanoid.Touched:connect(characterTouchedBrick)
+
+	local splashScreen = player.PlayerGui:WaitForChild("StartScreen")
+
+	if UserInputService.TouchEnabled == false then
+		if UserInputService.GamepadEnabled then
+			splashScreen.StartInstructions.StartLabel.Text = "Press Space or Gamepad A Button to Start"
+		else
+			splashScreen.StartInstructions.StartLabel.Text = "Press Space to Start"
+		end
+
+	end
+	if reviving == true then
+		reviving = false
+		splashScreen:Destroy()
+		humanoid.WalkSpeed = characterWalkSpeed
+	end
+
+	humanoid.WalkSpeed = 0
+end
+player.CharacterAdded:connect(characterAdded)
+
+if player.Character then
+	characterAdded(player.Character)
+end
+
+function checkReviving(addedGui)
+	if addedGui.Name == "RevivingGUI" then
+		reviving = true
