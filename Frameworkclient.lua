@@ -7,18 +7,6 @@ local aimCf = CFrame.new()
 local camera = workspace.CurrentCamera
 local tempAim = CFrame.new()
 local ISAiming = false
-local framework = {
-	inventory = {
-		"Electo";
-		"The shocker";
-		"Knife";
-	};
-
-	module = nil;
-	viewmodel = nil;
-	currentSlot = 1;
-}
-
 function loadSlot(Item)
 	local viewmodelFolder = game.ReplicatedStorage.Viewmoduls
 	local moduleFolder = game.ReplicatedStorage.module
@@ -257,6 +245,56 @@ invisiblePart.Touched:Connect(function(hit)
 end)
 
 invisiblePart.TouchEnded:Connect(function(hit)
+	local character = hit.Parent
+	local humanoid = character:FindFirstChild("Humanoid")
+
+	if humanoid then
+		print("no longer touching")
+		if sound then
+			sound:Stop()
+		end
+		local shop = game.Players:GetPlayerFromCharacter(character).PlayerGui.ShopGUI
+		local counter = 0
+		while counter < 1 do
+			shop.Frame.BackgroundTransparency = counter
+			task.wait(0.01)
+			counter+=0.1
+		end
+	end
+end)
+local Settings = {
+	
+	canAim = true;
+	AimSmooth = .125
+}
+
+return Settings
+UserInputService.InputEnded:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.LeftShift then
+		if humanoid then
+			humanoid.WalkSpeed = 12
+		end
+	end
+
+end)
+
+RunService.RenderStepped:Connect(function()
+	if humanoid then
+		if humanoid.MoveDirection.Magnitude > 0 then
+			local headbobY = math.sin(tick() * 7) * .2
+			if humanoid.WalkSpeed == 12 then
+				headbobY = math.sin(tick() * 7) * .2
+			elseif humanoid.WalkSpeed == 25 then
+				headbobY = math.sin(tick() * 18) * .3
+			end
+			
+			local bob = Vector3.new(0, headbobY , 0)
+			humanoid.CameraOffset = humanoid.CameraOffset:Lerp(bob , 1)
+		else
+			humanoid.CameraOffset = humanoid.CameraOffset:Lerp(Vector3.new(), 1)
+		end
+	end
+end)
 	local character = hit.Parent
 	local humanoid = character:FindFirstChild("Humanoid")
 
