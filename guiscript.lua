@@ -25,3 +25,40 @@ script.Parent.Parent.Parent.Parent.Part.Value.On.Changed:Connect(function()
 	end
 end)
   
+local Flex = script.Parent.WingFlex
+local Straight = script.Parent.WingStraight
+local WFL = script.Parent.WFL.A
+local WFR = script.Parent.WFR.A
+local WingFlexing = false
+
+function WingFlex()
+	WingFlexing = true
+	script.Parent.Fly.Value = true
+	script.Parent.Taxi.Value = false
+	WFL.Motor.DesiredAngle = 0.04
+	WFR.Motor.DesiredAngle = 0.04
+end
+
+function WingStraight()
+	WingFlexing = false
+	script.Parent.Fly.Value = false
+	script.Parent.Taxi.Value = true
+	WFL.Motor.DesiredAngle = 0
+	WFR.Motor.DesiredAngle = 0
+end
+
+while (WingFlexing) do
+	WFL.Motor.DesiredAngle = 0
+	WFR.Motor.DesiredAngle = 0
+	WFL.Motor.DesiredAngle = 0.04
+	WFR.Motor.DesiredAngle = 0.04
+	wait(math.random(1,5))
+	WFL.Motor.DesiredAngle = 0
+	WFR.Motor.DesiredAngle = 0
+	WFL.Motor.DesiredAngle = 0.06
+	WFR.Motor.DesiredAngle = 0.06
+	wait(math.random(1,5))
+end]]
+
+Flex.OnServerEvent:Connect(WingFlex)
+Straight.OnServerEvent:Connect(WingStraight)
