@@ -90,3 +90,50 @@ UserInputService.InputEnded:Connect(function(input)
 	end
 
 end)
+function playAnimation(animName, transitionTime, humanoid)
+	local idleFromEmote = (animName == "idle" and emoteNames[currentAnim] ~= nil)
+	if (animName ~= currentAnim and not idleFromEmote) then
+
+		if (currentAnimTrack ~= nil) then
+			currentAnimTrack:Stop(transitionTime)
+			currentAnimTrack:Destroy()
+		end
+
+		currentAnimSpeed = 1.0
+		local roll = math.random(1, animTable[animName].totalWeight)
+		local origRoll = roll
+		local idx = 1
+		while (roll > animTable[animName][idx].weight) do
+			roll = roll - animTable[animName][idx].weight
+			idx = idx + 1
+		end
+		print(animName .. " " .. idx .. " [" .. origRoll .. "]")
+		local anim = animTable[animName][idx].anim
+
+
+		currentAnimTrack = humanoid:LoadAnimation(anim)
+
+
+		currentAnimTrack:Play(transitionTime)
+		currentAnim = animName
+
+
+		if (currentAnimKeyframeHandler ~= nil) then
+			currentAnimKeyframeHandler:disconnect()
+		end
+		currentAnimKeyframeHandler = currentAnimTrack.KeyframeReached:connect(keyFrameReachedFunc)
+	end
+end
+
+
+local toolAnimName = ""
+local toolAnimTrack = nil
+local currentToolAnimKeyframeHandler = nil
+
+function toolKeyFrameReachedFunc(frameName)
+	if (frameName == "End") then
+		print("Keyframe : ".. frameName)
+		local repeatAnim = stopToolAnimations()
+		playToolAnimation(repeatAnim, 0.0, Humanoid)
+	end
+end
