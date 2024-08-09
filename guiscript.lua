@@ -330,3 +330,23 @@ script.Parent.Changed:connect(onChanged)
 		wait(1)
 	end
 end
+open = script.Parent.Parent.OPEN
+closed = script.Parent
+
+function onClicked(part)
+	closed.Transparency = 1
+	open.Transparency = 0
+end
+
+script.Parent.ClickDetector.MouseClick:connect(onClicked)
+				local Toggle = false
+
+script.Parent.ClickDetector.MouseClick:Connect(function()
+	if Toggle == false then
+		Toggle = true
+		script.Parent.Hinge.Motor.DesiredAngle = 1.3
+	else
+		Toggle = false
+		script.Parent.Hinge.Motor.DesiredAngle = 0
+	end
+end)
