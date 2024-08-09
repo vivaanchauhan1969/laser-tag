@@ -380,3 +380,51 @@ end)
 		script.Parent.CanCollide = false
 	end
 end
+local Slide = script.Parent
+local Anim = Slide.Anim.Value
+local Base = Slide.Base
+local Light = Slide.Light
+local SlidePart = Slide.Slide
+local Sit = Slide.Sit
+local Parts = {}
+
+function Scan(P)
+	for _,v in pairs(P:GetChildren()) do
+		if v:IsA("BasePart") then
+			table.insert(Parts, v)
+		end
+	end
+end
+
+Scan(SlidePart)
+
+Slide.On.Changed:Connect(function()
+	if Slide.On.Value == true then
+		Sit.One.Script.Disabled = false
+		Sit.Two.Script.Disabled = false
+		Sit.Three.Script.Disabled = false
+		Sit.Four.Script.Disabled = false
+		Sit.Five.Script.Disabled = false
+		Sit.Six.Script.Disabled = false
+		Base.FL.Transparency = 0
+		Base.FR.Transparency = 0
+		Base.RL.Transparency = 0
+		Base.RR.Transparency = 0
+		Base.WL.Transparency = 0
+		Base.WR.Transparency = 0						Sit.One.Sound:Play()
+		Sit.Two.Sound:Play()
+		Sit.Three.Sound:Play()
+		Sit.Four.Sound:Play()
+		Sit.Five.Sound:Play()
+		Sit.Six.Sound:Play()
+		Light.Light1.Transparency = 0
+		Light.Light1.Light.Enabled = true
+		Light.Light2.Transparency = 0
+		Light.Light2.Light.Enabled = true
+		for _,v in pairs(Parts) do
+			v.Transparency = 0
+			v.CanCollide = true
+		end
+		script:Destroy()
+	end
+end)
