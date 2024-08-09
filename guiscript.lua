@@ -350,3 +350,33 @@ script.Parent.ClickDetector.MouseClick:Connect(function()
 		script.Parent.Hinge.Motor.DesiredAngle = 0
 	end
 end)
+local Toggle = false
+
+script.Parent.Click.MouseClick:Connect(function()
+	local Door = script.Parent.Door.Value
+	if Toggle == false then
+		Toggle = true
+		script.Parent.BrickColor = BrickColor.new("Institutional white")
+		Door.ClickDetector.MaxActivationDistance = 0
+		Door.Script.Disabled = true
+		Door.A.Motor.DesiredAngle = 0
+	else
+		Toggle = false
+		script.Parent.BrickColor = BrickColor.new("Black")
+		Door.ClickDetector.MaxActivationDistance = 10
+		Door.Script.Disabled = false
+	end
+end)
+				script.Parent.Touched:Connect(function(hit)
+	local Player = hit.Parent:FindFirstChild("Humanoid")
+	if Player.Sit == false then
+		Player.Sit = true
+	end
+end)
+				while wait() do
+	if script.Parent.Position.Y >= 1000 then
+		script.Parent.CanCollide = true
+	else
+		script.Parent.CanCollide = false
+	end
+end
