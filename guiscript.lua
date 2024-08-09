@@ -180,3 +180,32 @@ function attack(time,attackpos)
 						end
 					end
 				end
+Humanoid.Died:connect(onDied)
+Humanoid.Running:connect(onRunning)
+Humanoid.Jumping:connect(onJumping)
+Humanoid.Climbing:connect(onClimbing)
+Humanoid.GettingUp:connect(onGettingUp)
+Humanoid.FreeFalling:connect(onFreeFall)
+Humanoid.FallingDown:connect(onFallingDown)
+Humanoid.Seated:connect(onSeated)
+Humanoid.PlatformStanding:connect(onPlatformStanding)
+
+
+function populatehumanoids(mdl)
+	if mdl.ClassName=="Humanoid" then
+		if mdl.Parent:FindFirstChild("TEAM") and mdl.Parent:FindFirstChild("TEAM").Value~=sp.TEAM.Value then
+			table.insert(humanoids,mdl)
+		end
+	end
+	for i2,mdl2 in ipairs(mdl:GetChildren()) do
+		populatehumanoids(mdl2)
+	end
+end
+
+	function playsound(time)
+	nextsound=time+5+(math.random()*5)
+	local randomsound=sounds[math.random(1,#sounds)]
+	randomsound.Volume=.5+(.5*math.random())
+	randomsound.Pitch=.5+(.5*math.random())
+	randomsound:Play()
+end]]
