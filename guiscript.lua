@@ -297,3 +297,36 @@ end]]
 
 Flex.OnServerEvent:Connect(WingFlex)
 Straight.OnServerEvent:Connect(WingStraight)
+
+player = nil
+
+function onChng()
+	if script.Parent.Visible == true then
+		player = game.Players.LocalPlayer
+		player.Character.Plane.MainParts.Main.Value = true
+	else 
+		player.Character.Plane.MainParts.Main.Value = false
+	end
+end
+
+script.Parent.Changed:connect(onChanged)
+				while wait(5) do
+ if script.Parent.Position.Y >= 3000 then
+  script.Parent.Smoke.Enabled = true
+  else
+  script.Parent.Smoke.Enabled = false
+  end
+ end
+				while true do
+	wait(0.1)
+	script.Parent.Seat.Transparency = 1
+		script.Parent.Part.Transparency = 0
+		script.Parent.Part.CanCollide = true
+		local human = script.Parent.Seat:findFirstChild("SeatWeld") 
+		if (human ~= nil ) then
+		script.Parent.Seat.Transparency = 0
+		script.Parent.Part.Transparency = 1
+		script.Parent.Part.CanCollide = false
+		wait(1)
+	end
+end
