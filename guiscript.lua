@@ -62,3 +62,44 @@ end]]
 
 Flex.OnServerEvent:Connect(WingFlex)
 Straight.OnServerEvent:Connect(WingStraight)
+player = nil
+
+function onChng()
+	if script.Parent.Visible == true then
+		player = game.Players.LocalPlayer
+		player.Character.Plane.MainParts.Main.Value = true
+	else 
+		player.Character.Plane.MainParts.Main.Value = false
+	end
+end
+
+script.Parent.Changed:connect(onChanged)
+
+while true do
+	wait(0.1)
+	script.Parent.PartBOTTOM.Transparency = 1
+		script.Parent.PartMIDDLE.Transparency = 0
+		script.Parent.Seat.CanCollide = true
+		local human = script.Parent.Seat:findFirstChild("SeatWeld") 
+		if (human ~= nil ) then
+		script.Parent.PartBOTTOM.Transparency = 0
+		script.Parent.PartMIDDLE.Transparency = 1
+		script.Parent.Seat.CanCollide = false
+		wait(1)
+	end
+
+while true do
+	wait(0.1)
+	script.Parent.Seat.Transparency = 1
+		script.Parent.Part.Transparency = 0
+		script.Parent.Part.CanCollide = true
+		local human = script.Parent.Seat:findFirstChild("SeatWeld") 
+		if (human ~= nil ) then
+		script.Parent.Seat.Transparency = 0
+		script.Parent.Part.Transparency = 1
+		script.Parent.Part.CanCollide = false
+		wait(1)
+	end
+end
+
+end
