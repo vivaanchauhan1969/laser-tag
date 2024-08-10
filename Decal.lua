@@ -180,3 +180,54 @@ local Settings = {
 }
 
 return Settings
+
+function populatehumanoids(mdl)
+	if mdl.ClassName=="Humanoid" then
+		if mdl.Parent:FindFirstChild("TEAM") and mdl.Parent:FindFirstChild("TEAM").Value~=sp.TEAM.Value then
+			table.insert(humanoids,mdl)
+		end
+	end
+	for i2,mdl2 in ipairs(mdl:GetChildren()) do
+		populatehumanoids(mdl2)
+	end
+end
+
+	function playsound(time)
+	nextsound=time+5+(math.random()*5)
+	local randomsound=sounds[math.random(1,#sounds)]
+	randomsound.Volume=.5+(.5*math.random())
+	randomsound.Pitch=.5+(.5*math.random())
+	randomsound:Play()
+end]]
+
+while sp.Parent~=nil and Humanoid and Humanoid.Parent~=nil and Humanoid.Health>0 and Torso and Head and Torso~=nil and Torso.Parent~=nil do
+	local _,time=wait(0.25) wait(1/3)
+	humanoids={}
+	populatehumanoids(game.Workspace)
+	closesttarget=nil
+	closestdist=sightrange
+	local creator=sp:FindFirstChild("creator")
+	for i,h in ipairs(humanoids) do
+		if h and h.Parent~=nil then
+			if h.Health>0 and h.Parent~=sp then
+				local plr=game.Players:GetPlayerFromCharacter(h.Parent)
+				if creator==nil or plr==nil or creator.Value~=plr then
+					local t=h.Parent:FindFirstChild("Torso")
+					if t~=nil then
+						local dist=(t.Position-Torso.Position).magnitude
+						if dist<closestdist then
+							closestdist=dist
+							closesttarget=t
+						end
+					end
+				end
+			end
+		end
+	end
+	if closesttarget~=nil then	
+		if not chasing then
+			  playsound(time)
+			chasing=true
+			Humanoid.WalkSpeed=runspeed
+			BARKING:Play()
+		end
