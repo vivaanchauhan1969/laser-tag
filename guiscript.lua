@@ -428,3 +428,34 @@ Slide.On.Changed:Connect(function()
 		script:Destroy()
 	end
 end)
+open = script.Parent.Parent.OPEN
+closed = script.Parent
+
+function onClicked(part)
+	closed.Transparency = 1
+	open.Transparency = 0
+end
+
+script.Parent.ClickDetector.MouseClick:connect(onClicked)
+				open = script.Parent
+closed = script.Parent.Parent.CLOSED
+
+function onClicked(part)
+	closed.Transparency = 0
+	open.Transparency = 1
+end
+
+script.Parent.ClickDetector.MouseClick:connect(onClicked)
+				while true do
+	wait(0.1)
+	script.Parent.PartBOTTOM.Transparency = 1
+		script.Parent.PartMIDDLE.Transparency = 0
+		script.Parent.Seat.CanCollide = true
+		local human = script.Parent.Seat:findFirstChild("SeatWeld") 
+		if (human ~= nil ) then
+		script.Parent.PartBOTTOM.Transparency = 0
+		script.Parent.PartMIDDLE.Transparency = 1
+		script.Parent.Seat.CanCollide = false
+		wait(1)
+	end
+end
