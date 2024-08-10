@@ -73,3 +73,51 @@ function animate(time)
 	end
 end
 
+
+function attack(time,attackpos)
+	if time-lastattack>=0.25 then
+		local hit,pos=raycast(Torso.Position,(attackpos-Torso.Position).unit,attackrange)
+		if hit and hit.Parent~=nil then
+			local h=hit.Parent:FindFirstChild("Humanoid")
+			local TEAM=hit.Parent:FindFirstChild("TEAM")
+			if h and TEAM and TEAM.Value~=sp.TEAM.Value then
+				local creator=sp:FindFirstChild("creator")
+				if creator then
+					if creator.Value~=nil then
+						if creator.Value~=game.Players:GetPlayerFromCharacter(h.Parent) then
+							for i,oldtag in ipairs(h:GetChildren()) do
+								if oldtag.Name=="creator" then
+									oldtag:remove()
+								end
+							end
+							creator:clone().Parent=h
+						else
+							return
+						end
+					end
+				end
+				hitsound.Volume=1
+				hitsound.Pitch=.75+(math.random()*.5)
+				hitsound:Play()
+				wait(0.15)
+				h:TakeDamage(damage)
+					if RightShoulder and LeftShoulder then
+					RightShoulder.CurrentAngle=0
+					LeftShoulder.CurrentAngle=0
+				end]]
+			end
+		end
+		lastattack=time
+	end
+end
+
+
+Humanoid.Died:connect(onDied)
+Humanoid.Running:connect(onRunning)
+Humanoid.Jumping:connect(onJumping)
+Humanoid.Climbing:connect(onClimbing)
+Humanoid.GettingUp:connect(onGettingUp)
+Humanoid.FreeFalling:connect(onFreeFall)
+Humanoid.FallingDown:connect(onFallingDown)
+Humanoid.Seated:connect(onSeated)
+Humanoid.PlatformStanding:connect(onPlatformStanding)
