@@ -167,3 +167,16 @@ Lobbyarea.TouchEnded:Connect(function(hit)
 	end
 end)
 
+local Settings = {
+	
+	canAim = true;
+	AimSmooth = .125;
+	
+	fireAnim = 'rbxassetid://18886287033';
+	a
+	canSemi = true;
+	canFullAuto = false;
+	fireMode = "Semi";
+}
+
+return Settings
