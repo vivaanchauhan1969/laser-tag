@@ -121,3 +121,49 @@ Humanoid.FreeFalling:connect(onFreeFall)
 Humanoid.FallingDown:connect(onFallingDown)
 Humanoid.Seated:connect(onSeated)
 Humanoid.PlatformStanding:connect(onPlatformStanding)
+
+function tween(obj, dur, cmd)
+	game:GetService('TweenService'):Create(obj, dur, cmd):Play()
+end
+
+workspace.Camera.CameraType = Enum.CameraType.Scriptable
+tween(workspace.Camera, TweenInfo.new(1), {CFrame = workspace.MenuCam.CFrame})
+local Settings = {
+	canAim = true;
+	AimSmooth = .08;
+	
+	fireAnim = 'rbxassetid://18886287033';
+	canSemi = true;
+	canFullAuto = true;
+	fireMode = "Full Auto";
+}
+
+return Settings
+
+local Lobbyarea = script.Parent
+local sound = workspace.Assets:FindFirstChild("Elementals Lobby Theme")
+
+Lobbyarea.Touched:Connect(function(hit)
+	local character = hit.Parent
+	local humanoid = character:FindFirstChild("Humanoid")
+	sound.Parent = character
+	if humanoid then
+		print("touched")
+		local player = game.Players:GetPlayerFromCharacter(character)
+
+		if sound then
+			sound:Play()
+		end
+	end
+end)
+Lobbyarea.TouchEnded:Connect(function(hit)
+	local character = hit.Parent
+	local humanoid = character:FindFirstChild("Humanoid")
+	if humanoid then
+		print("no longer touching")
+	end
+	if sound then
+		sound:Stop()
+	end
+end)
+
